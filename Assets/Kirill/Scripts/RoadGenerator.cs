@@ -93,5 +93,10 @@ public class RoadGenerator : MonoBehaviour
 
         //PlayerController.instanse.Animator.speed = 1;
     }
+
+    public void ReastartLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
 

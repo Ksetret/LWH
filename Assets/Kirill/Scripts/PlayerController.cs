@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _deathWindow;
 
     private bool _isJumping = false;
-    private float _jumpPower = 15f;
+    private float _jumpPower = 10f;
     private float _jumpGravity = -40f;
     private float _realGravity = -9.8f;
 
@@ -93,8 +93,9 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Beast");
-        if (other.gameObject.GetComponent<MonkeyControl>())
+        if (other.gameObject.GetComponent<FoxControl>())
         {
+            _jumpPower = 15f;
             MapGenerator.instanse.SetBest(BeastPool.Monkey);
             _mousePlayer.SetActive(false);
             _monkeyPlayer.SetActive(true);
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.GetComponent<MouseController>()) 
         {
+            _jumpPower = 8f;
             MapGenerator.instanse.SetBest(BeastPool.Mouse);
             _mousePlayer.SetActive(true);
             _monkeyPlayer.SetActive(false);
@@ -155,7 +157,7 @@ public class PlayerController : MonoBehaviour
 
             _rb.velocity = new Vector3(vectorX, _rb.velocity.y, 0);
             float x = Mathf.Clamp(transform.position.x, Mathf.Min(_pointStart, _pointFinish), Mathf.Max(_pointStart, _pointFinish));
-            transform.position = new Vector3(x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(x, transform.position.y, 0f);
 
         }
 
@@ -174,4 +176,6 @@ public class PlayerController : MonoBehaviour
 
         this.transform.GetChild(0).gameObject.SetActive(true);
     }
+
+    
 }

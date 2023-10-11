@@ -187,6 +187,8 @@ MonoBehaviour:
   Animator: {fileID: 0}
   _laneOffset: 2
   _deathWindow: {fileID: 0}
+  _mousePlayer: {fileID: 0}
+  _monkeyPlayer: {fileID: 0}
 --- !u!54 &6388567771511244864
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -440,7 +442,7 @@ GameObject:
   - component: {fileID: 6622513730170599619}
   - component: {fileID: 8659532185103722211}
   m_Layer: 0
-  m_Name: Monkey
+  m_Name: Fox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
