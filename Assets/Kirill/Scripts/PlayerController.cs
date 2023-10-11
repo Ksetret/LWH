@@ -93,8 +93,9 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Beast");
-        if (other.gameObject.GetComponent<MonkeyControl>())
+        if (other.gameObject.GetComponent<FoxControl>())
         {
+            _jumpPower = 15f;
             MapGenerator.instanse.SetBest(BeastPool.Monkey);
             _mousePlayer.SetActive(false);
             _monkeyPlayer.SetActive(true);
@@ -104,6 +105,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.GetComponent<MouseController>()) 
         {
+            _jumpPower = 8f;
             MapGenerator.instanse.SetBest(BeastPool.Mouse);
             _mousePlayer.SetActive(true);
             _monkeyPlayer.SetActive(false);
@@ -174,4 +176,6 @@ public class PlayerController : MonoBehaviour
 
         this.transform.GetChild(0).gameObject.SetActive(true);
     }
+
+    
 }

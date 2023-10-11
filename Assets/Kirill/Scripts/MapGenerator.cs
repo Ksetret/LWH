@@ -37,20 +37,20 @@ public class MapGenerator : MonoBehaviour
 
     public float LaneOffset => _laneOffset;
     enum TrackPos { Left = -1, Center = 0, Right = 1};
-    enum EnergeStyle { Line, Jump, Ramp};
+   // enum EnergeStyle { Line, Jump, Ramp};
     public enum BeastPool { Monkey = 1, Mouse = 0};
 
     public BeastPool _nowBeast = BeastPool.Mouse;
     struct MapItem
     {
-        public void SetValues(GameObject obstacle, TrackPos trackPos, EnergeStyle energeStyle)
+        public void SetValues(GameObject obstacle, TrackPos trackPos)
         {
-            this.obstacle = obstacle; this.trackPos = trackPos; this.energiStyle = energeStyle;
+            this.obstacle = obstacle; this.trackPos = trackPos; 
         }
 
         public GameObject obstacle;
         public TrackPos trackPos;
-        public EnergeStyle energiStyle;
+        
     }
 
     static public MapGenerator instanse;
@@ -155,8 +155,7 @@ public class MapGenerator : MonoBehaviour
         {
             GameObject obstacle = null;
             TrackPos trackPos = TrackPos.Center;
-            EnergeStyle energiStyle = EnergeStyle.Line;
-
+          
             int rand = UnityEngine.Random.Range(0, 3);
 
             int randObstacle = UnityEngine.Random.Range(0, _nowObstacle.Length);
@@ -172,7 +171,7 @@ public class MapGenerator : MonoBehaviour
             else if (rand == 2) { trackPos = TrackPos.Center;}
 
             Vector3 obstaclePos = new Vector3((int)trackPos * _laneOffset, 1f, i * _itemSpace);
-            CreatCoints(energiStyle, obstaclePos, result);
+          
 
             if (obstacle != null)
             {
@@ -183,7 +182,7 @@ public class MapGenerator : MonoBehaviour
         return result;
     }
 
-    private void CreatCoints(EnergeStyle style, Vector3 pos, GameObject parentObject)
+    /*private void CreatCoints(EnergeStyle style, Vector3 pos, GameObject parentObject)
     {
         Vector3 energePos = Vector3.zero;
         if (style == EnergeStyle.Line)
@@ -216,7 +215,7 @@ public class MapGenerator : MonoBehaviour
                 nextEnerge.transform.SetParent(parentObject.transform);
             }
         }
-    }
+    }*/
 
     public void SetBest(BeastPool nextBeast)
     {
