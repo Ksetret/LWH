@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2827232481080330282}
   - component: {fileID: 7920927380942184201}
   m_Layer: 0
-  m_Name: MonkeyTrigger
+  m_Name: FoxTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

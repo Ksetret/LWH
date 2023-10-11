@@ -17,7 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _deathWindow;
 
     private bool _isJumping = false;
-    private float _jumpPower = 15f;
+    private float _jumpPower = 10f;
     private float _jumpGravity = -40f;
     private float _realGravity = -9.8f;
 
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
 
             _rb.velocity = new Vector3(vectorX, _rb.velocity.y, 0);
             float x = Mathf.Clamp(transform.position.x, Mathf.Min(_pointStart, _pointFinish), Mathf.Max(_pointStart, _pointFinish));
-            transform.position = new Vector3(x, transform.position.y, transform.position.z);
+            transform.position = new Vector3(x, transform.position.y, 0f);
 
         }
 

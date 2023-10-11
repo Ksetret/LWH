@@ -56,14 +56,15 @@ public class MapGenerator : MonoBehaviour
     static public MapGenerator instanse;
     private void Awake()
     {
+
         _nowObstacle = _obstacleMouse;
 
         instanse = this;
         _mapSize = _itemCountInMap * _itemSpace;
         _roadGeneratorScript = _roadGenerator.GetComponent<RoadGenerator>();
-        maps.Add(MakeMap());
-        maps.Add(MakeMap());
-        maps.Add(MakeMap());
+
+       
+
         foreach (GameObject map in maps)
         {
             map.SetActive(false);
@@ -94,10 +95,29 @@ public class MapGenerator : MonoBehaviour
 
     private void RemoveFirstActiveMap()
     {
+
         activeMaps[0].SetActive(false);
-        maps.Add(activeMaps[0]);
-        activeMaps.RemoveAt(0);
+
+        if (maps.Count > 3)
+        {
+            Destroy(activeMaps[0].gameObject);
+            activeMaps.RemoveAt(0);
+        }
+        else
+        {
+            maps.Add(MakeMap());
+            activeMaps.RemoveAt(0);
+            
+        }
+        foreach (Transform child in this.transform)
+        {
+            if (child.gameObject.active == false)
+                Destroy(child.gameObject);
+        }
+
     }
+
+
 
     public void ResetMaps()
     {
@@ -106,8 +126,8 @@ public class MapGenerator : MonoBehaviour
             RemoveFirstActiveMap();
         }
 
-         AddActiveMap();
-        AddActiveMap();
+        /* AddActiveMap();
+         AddActiveMap();*/
     }
 
     private void AddActiveMap()
@@ -200,27 +220,22 @@ public class MapGenerator : MonoBehaviour
 
     public void SetBest(BeastPool nextBeast)
     {
-        maps.Clear();
-        activeMaps.Clear();
-
-      //  MakeMap();
-       
+       maps.Clear();
         _nowBeast = nextBeast;
-    
 
         Debug.Log("SetBeast");
         if (_nowBeast == BeastPool.Mouse)
         {
             _nowObstacle = _obstacleMouse;
 
-            foreach (Transform child in this.transform)
-                Destroy(child.gameObject);
+            /*foreach (Transform child in this.transform)
+                Destroy(child.gameObject);*/
 
             maps.Add(MakeMap());
             maps.Add(MakeMap());
-            maps.Add(MakeMap());
+           /* maps.Add(MakeMap());
 
-            AddActiveMap();
+            AddActiveMap();*/
             AddActiveMap();
             AddActiveMap();
 
@@ -230,20 +245,20 @@ public class MapGenerator : MonoBehaviour
         {
             _nowObstacle = _obstacleMonkey;
 
-            foreach (Transform child in this.transform)
-                Destroy(child.gameObject);
+           /*foreach (Transform child in this.transform)
+                Destroy(child.gameObject);*/
 
+           maps.Add(MakeMap());
             maps.Add(MakeMap());
-            maps.Add(MakeMap());
-            maps.Add(MakeMap());
+           /* maps.Add(MakeMap());
 
            
-            AddActiveMap();
+            AddActiveMap();*/
             AddActiveMap();
             AddActiveMap();
 
         }
-
+      
     }
 
     
