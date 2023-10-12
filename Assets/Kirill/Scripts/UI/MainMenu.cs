@@ -58,11 +58,5 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void StopGame()
-    {
-        
-        Time.timeScale = 0;
-        _stopWindow.SetActive(true);
-
-    }
+  
 }
