@@ -13,7 +13,11 @@ public class EnergePlayer : MonoBehaviour
     [SerializeField] private float _currentEnerge = 0.5f;
     [SerializeField] private float _maxEnerge = 1.0f;
     [SerializeField] private float _rateEnerge = 0.002f;
-
+    [SerializeField] private GameObject _deathWindow;
+    [SerializeField] private Light _lightMouse;
+    [SerializeField] private ParticleSystem _particleMouse;
+    [SerializeField] private Light _lightFox;
+    [SerializeField] private ParticleSystem _particleFox;
 
     static public EnergePlayer instance;
 
@@ -27,10 +31,26 @@ public class EnergePlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
+
         _currentEnerge -= _rateEnerge;
         if (_currentEnerge <= 0)
-            Debug.Log("Game Over");
-        _energeBar.fillAmount = _currentEnerge;
+        {
+            Score.instance.StopScore();
+            _deathWindow.SetActive(true);
+            RoadGenerator.instanse.ResetLevel();
+        }
+
+        if(_particleMouse != null)
+        _particleMouse.startSize = _currentEnerge * 5;
+
+        if (_lightMouse != null)
+            _lightMouse.intensity = _currentEnerge;
+
+        if (_particleFox != null)
+            _particleFox.startSize = _currentEnerge * 5;
+
+        if (_lightFox != null)
+            _lightFox.intensity = _currentEnerge;
     }
 
     public void EnergeBuster() {

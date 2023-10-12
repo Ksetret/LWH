@@ -27,7 +27,7 @@ public class RoadGenerator : MonoBehaviour
     private void Start()
     {
         ResetLevel();
-        StartLevel();
+       
     }
 
 
@@ -35,6 +35,9 @@ public class RoadGenerator : MonoBehaviour
     {
         if (_speed == 0)
             return;
+
+        if (_speed != _maxSpeed)
+            _speed += (float)(0.1 * Time.deltaTime);
 
         foreach(GameObject road in _roads)
         {
@@ -87,8 +90,8 @@ public class RoadGenerator : MonoBehaviour
    public void StartLevel()
     {
         Score.instance.ResetScore();
-        MapGenerator.instanse.SetBest(BeastPool.Mouse);
-        _speed = _maxSpeed;
+        MapGenerator.instanse.SetBeast(BeastPool.Mouse);
+        _speed = 5;
         PlayerController.instanse.RestartBeast();
 
         //PlayerController.instanse.Animator.speed = 1;

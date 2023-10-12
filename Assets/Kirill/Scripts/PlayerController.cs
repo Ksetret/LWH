@@ -6,8 +6,9 @@ using static MapGenerator;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator Animator;
+    public Animator _animator;
     [SerializeField]private float _laneOffset = 2f;
+    [SerializeField] private GameObject _endGameWindow;
     //private Vector3 _targetPos;
     private float _laneChangeSpeed = 10;
 
@@ -38,31 +39,35 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        Animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
       
     }
     static public PlayerController instanse;
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) && _pointFinish  > -_laneOffset)
+        if (RoadGenerator.instanse.Speed != 0)
         {
-            MoveHorizontal(-_laneChangeSpeed);
+
+            if (Input.GetKeyDown(KeyCode.A) && _pointFinish > -_laneOffset)
+            {
+                MoveHorizontal(-_laneChangeSpeed);
+
+            }
             
+
+            if (Input.GetKeyDown(KeyCode.D) && _pointFinish < _laneOffset)
+            {
+
+                MoveHorizontal(_laneChangeSpeed);
+
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space) && _isJumping == false)
+            {
+                Jump();
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.D) && _pointFinish < _laneOffset)
-        {
-
-            MoveHorizontal(_laneChangeSpeed);
-            
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space) && _isJumping == false)
-        {
-            Jump();
-        }
-
 
         //  transform.position = Vector3.MoveTowards(transform.position, _targetPos, _laneChangeSpeed * Time.deltaTime);
     }
@@ -92,11 +97,12 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+
         Debug.Log("Beast");
         if (other.gameObject.GetComponent<FoxControl>())
         {
             _jumpPower = 15f;
-            MapGenerator.instanse.SetBest(BeastPool.Monkey);
+           // MapGenerator.instanse.SetBeast(BeastPool.Fox);
             _mousePlayer.SetActive(false);
             _monkeyPlayer.SetActive(true);
             Destroy(other.gameObject);
@@ -106,17 +112,24 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.GetComponent<MouseController>()) 
         {
             _jumpPower = 8f;
-            MapGenerator.instanse.SetBest(BeastPool.Mouse);
+          //  MapGenerator.instanse.SetBeast(BeastPool.Mouse);
             _mousePlayer.SetActive(true);
             _monkeyPlayer.SetActive(false);
             Destroy(other.gameObject);
             Debug.Log("Beast2");
         }
+        if (other.gameObject.tag == "EndGame")
+        {
+            _rb.AddForce(Vector3.up * 1000f, ForceMode.Impulse);
+            _rb.useGravity = false;
+            _endGameWindow.SetActive(true);
+            Score.instance.StopScore();
+        }
     }
     private void Jump()
     {
         _isJumping = true;
-
+        _animator.SetTrigger("Jump");
         _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         Physics.gravity = new Vector3(0, _jumpGravity, 0);
 
@@ -130,6 +143,7 @@ public class PlayerController : MonoBehaviour
         }
         while (_rb.velocity.y != 0);
         _isJumping = false;
+        _animator.SetTrigger("Jump");
         Physics.gravity = new Vector3(0, _realGravity, 0);
 
     }

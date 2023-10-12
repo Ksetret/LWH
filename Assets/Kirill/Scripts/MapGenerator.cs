@@ -10,18 +10,18 @@ using UnityEngine.UIElements;
 public class MapGenerator : MonoBehaviour
 {
 
-    /* [SerializeField] private GameObject _obstacleTopPrefab;
-     [SerializeField] private GameObject _obstacleBottomPrefab;
-     [SerializeField] private GameObject _obstacleFullPrefab;*/
+    [SerializeField] private GameObject _foxTile;
+    [SerializeField] private GameObject _endTile;
+
     private GameObject[] _nowObstacle;
     [SerializeField] private GameObject[] _obstacleMouse;
-    [SerializeField] private GameObject[] _obstacleMonkey;
+    [SerializeField] private GameObject[] _obstacleFox;
     [SerializeField] private GameObject _rampPrefab;
 
     [SerializeField] private GameObject _energePrefab;
 
-    [SerializeField] private List<GameObject> maps = new List<GameObject>();
-    [SerializeField] private List<GameObject> activeMaps = new List<GameObject>();
+    [SerializeField] private List<GameObject> _maps = new List<GameObject>();
+    [SerializeField] private List<GameObject> _activeMaps = new List<GameObject>();
 
     [SerializeField]private int _itemSpace = 20;
     [SerializeField] private int _itemCountInMap = 5;
@@ -38,7 +38,7 @@ public class MapGenerator : MonoBehaviour
     public float LaneOffset => _laneOffset;
     enum TrackPos { Left = -1, Center = 0, Right = 1};
    // enum EnergeStyle { Line, Jump, Ramp};
-    public enum BeastPool { Monkey = 1, Mouse = 0};
+    public enum BeastPool { Fox = 1, Mouse = 0, EndGame = 2};
 
     public BeastPool _nowBeast = BeastPool.Mouse;
     struct MapItem
@@ -65,7 +65,7 @@ public class MapGenerator : MonoBehaviour
 
        
 
-        foreach (GameObject map in maps)
+        foreach (GameObject map in _maps)
         {
             map.SetActive(false);
         }
@@ -81,12 +81,12 @@ public class MapGenerator : MonoBehaviour
     {
         if (_roadGeneratorScript.Speed == 0) return;
 
-        foreach (GameObject map in activeMaps) 
+        foreach (GameObject map in _activeMaps) 
         {
             map.transform.position -= new Vector3(0, 0, _roadGeneratorScript.Speed * Time.deltaTime);
         }
 
-        if (activeMaps[0].transform.position.z < - _mapSize)
+        if (_activeMaps[0].transform.position.z < - _mapSize)
         {
             RemoveFirstActiveMap();
             AddActiveMap();
@@ -96,17 +96,17 @@ public class MapGenerator : MonoBehaviour
     private void RemoveFirstActiveMap()
     {
 
-        activeMaps[0].SetActive(false);
+        _activeMaps[0].SetActive(false);
 
-        if (maps.Count > 3)
+        if (_maps.Count > 3)
         {
-            Destroy(activeMaps[0].gameObject);
-            activeMaps.RemoveAt(0);
+            Destroy(_activeMaps[0].gameObject);
+            _activeMaps.RemoveAt(0);
         }
         else
         {
-            maps.Add(MakeMap());
-            activeMaps.RemoveAt(0);
+            _maps.Add(MakeMap());
+            _activeMaps.RemoveAt(0);
             
         }
         foreach (Transform child in this.transform)
@@ -121,7 +121,7 @@ public class MapGenerator : MonoBehaviour
 
     public void ResetMaps()
     {
-        while(activeMaps.Count > 0)
+        while(_activeMaps.Count > 0)
         {
             RemoveFirstActiveMap();
         }
@@ -132,19 +132,19 @@ public class MapGenerator : MonoBehaviour
 
     private void AddActiveMap()
     {
-        int rand = UnityEngine.Random.Range(0, maps.Count);
-        GameObject nextMap = maps[rand];
+        int rand = UnityEngine.Random.Range(0, _maps.Count);
+        GameObject nextMap = _maps[rand];
         nextMap.SetActive(true);
         foreach (Transform child in nextMap.transform)
         {
             child.gameObject.SetActive(true);
         }
 
-        nextMap.transform.position = activeMaps.Count > 0 ?
-                                        activeMaps[activeMaps.Count - 1].transform.position + Vector3.forward * _mapSize :
+        nextMap.transform.position = _activeMaps.Count > 0 ?
+                                        _activeMaps[_activeMaps.Count - 1].transform.position + Vector3.forward * _mapSize :
                                         new Vector3(0, 0, 10);
-        maps.RemoveAt(rand);
-        activeMaps.Add(nextMap);
+        _maps.RemoveAt(rand);
+        _activeMaps.Add(nextMap);
     }
 
     private GameObject MakeMap()
@@ -179,6 +179,37 @@ public class MapGenerator : MonoBehaviour
                 nextObstacle.transform.SetParent(result.transform);
             }
         }
+        return result;
+    }
+
+    private GameObject MakeMap(GameObject _beast)
+    {
+        GameObject result = new GameObject("Map");
+        result.transform.SetParent(transform);
+        
+            GameObject obstacle = null;
+            TrackPos trackPos = TrackPos.Center;
+
+            int rand = UnityEngine.Random.Range(0, 3);
+
+            int randObstacle = UnityEngine.Random.Range(0, _nowObstacle.Length);
+
+
+
+            obstacle = _beast;
+
+
+            trackPos = TrackPos.Center; 
+
+            Vector3 obstaclePos = new Vector3((int)trackPos * _laneOffset, 1f, _itemSpace);
+
+
+            if (obstacle != null)
+            {
+                GameObject nextObstacle = Instantiate(obstacle, obstaclePos, Quaternion.identity);
+                nextObstacle.transform.SetParent(result.transform);
+            }
+        
         return result;
     }
 
@@ -217,9 +248,9 @@ public class MapGenerator : MonoBehaviour
         }
     }*/
 
-    public void SetBest(BeastPool nextBeast)
+    public void SetBeast(BeastPool nextBeast)
     {
-       maps.Clear();
+       _maps.Clear();
         _nowBeast = nextBeast;
 
         Debug.Log("SetBeast");
@@ -230,8 +261,9 @@ public class MapGenerator : MonoBehaviour
             /*foreach (Transform child in this.transform)
                 Destroy(child.gameObject);*/
 
-            maps.Add(MakeMap());
-            maps.Add(MakeMap());
+            _maps.Add(MakeMap());
+            _maps.Add(MakeMap());
+            
            /* maps.Add(MakeMap());
 
             AddActiveMap();*/
@@ -240,27 +272,49 @@ public class MapGenerator : MonoBehaviour
 
         }
 
-        else if (_nowBeast == BeastPool.Monkey)
+        else if (_nowBeast == BeastPool.Fox)
         {
-            _nowObstacle = _obstacleMonkey;
+            _nowObstacle = _obstacleFox;
 
-           /*foreach (Transform child in this.transform)
-                Destroy(child.gameObject);*/
-
-           maps.Add(MakeMap());
-            maps.Add(MakeMap());
+            /*foreach (Transform child in this.transform)
+                 Destroy(child.gameObject);*/
+            _maps.Add(MakeMap(_foxTile));
+            _maps.Add(MakeMap());
+            _maps.Add(MakeMap());
            /* maps.Add(MakeMap());
 
            
             AddActiveMap();*/
             AddActiveMap();
             AddActiveMap();
-
+            AddActiveMap();
         }
-      
+
+        else if (_nowBeast == BeastPool.EndGame)
+        {
+            _nowObstacle = _obstacleFox;
+
+           
+            _maps.Add(MakeMap(_endTile));
+            _maps.Add(MakeMap());
+            _maps.Add(MakeMap());
+
+            AddActiveMap();
+            AddActiveMap();
+            AddActiveMap();
+        }
     }
 
-    
+    public void RestartLvl()
+    {
+        foreach (Transform child in this.transform)
+            Destroy(child.gameObject);
+        ResetMaps();
+        _maps.Clear();
+        _activeMaps.Clear();
+        SetBeast(BeastPool.Mouse);
+        
+    }
 
   
 }
