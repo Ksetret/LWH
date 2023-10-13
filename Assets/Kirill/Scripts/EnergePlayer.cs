@@ -10,7 +10,7 @@ public class EnergePlayer : MonoBehaviour
 {
     [SerializeField] private Image _energeBar;
 
-    [SerializeField] private float _currentEnerge = 0.5f;
+    [SerializeField] private float _currentEnerge = 1f;
     [SerializeField] private float _maxEnerge = 1.0f;
     [SerializeField] private float _rateEnerge = 0.002f;
     [SerializeField] private GameObject _deathWindow;
@@ -18,6 +18,8 @@ public class EnergePlayer : MonoBehaviour
     [SerializeField] private ParticleSystem _particleMouse;
     [SerializeField] private Light _lightFox;
     [SerializeField] private ParticleSystem _particleFox;
+    [SerializeField] private Light _lightFish;
+    [SerializeField] private ParticleSystem _particleFish;
 
     static public EnergePlayer instance;
 
@@ -51,6 +53,12 @@ public class EnergePlayer : MonoBehaviour
 
         if (_lightFox != null)
             _lightFox.intensity = _currentEnerge;
+
+        if (_particleFish != null)
+            _particleFish.startSize = _currentEnerge * 5;
+
+        if (_lightFish != null)
+            _lightFish.intensity = _currentEnerge;
     }
 
     public void EnergeBuster() {

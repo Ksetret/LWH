@@ -11,11 +11,13 @@ public class MapGenerator : MonoBehaviour
 {
 
     [SerializeField] private GameObject _foxTile;
+    [SerializeField] private GameObject _fishTile;
     [SerializeField] private GameObject _endTile;
 
     private GameObject[] _nowObstacle;
     [SerializeField] private GameObject[] _obstacleMouse;
     [SerializeField] private GameObject[] _obstacleFox;
+    [SerializeField] private GameObject[] _obstacleFish;
     [SerializeField] private GameObject _rampPrefab;
 
     [SerializeField] private GameObject _energePrefab;
@@ -38,7 +40,7 @@ public class MapGenerator : MonoBehaviour
     public float LaneOffset => _laneOffset;
     enum TrackPos { Left = -1, Center = 0, Right = 1};
    // enum EnergeStyle { Line, Jump, Ramp};
-    public enum BeastPool { Fox = 1, Mouse = 0, EndGame = 2};
+    public enum BeastPool { Fox = 1, Mouse = 0, EndGame = 2, Fish = 3};
 
     public BeastPool _nowBeast = BeastPool.Mouse;
     struct MapItem
@@ -252,6 +254,7 @@ public class MapGenerator : MonoBehaviour
     {
        _maps.Clear();
         _nowBeast = nextBeast;
+        
 
         Debug.Log("SetBeast");
         if (_nowBeast == BeastPool.Mouse)
@@ -288,6 +291,19 @@ public class MapGenerator : MonoBehaviour
             AddActiveMap();
             AddActiveMap();
             AddActiveMap();
+        }
+        else if (_nowBeast == BeastPool.Fish)
+        {
+            _nowObstacle = _obstacleFish;
+
+            _maps.Add(MakeMap(_fishTile));
+            _maps.Add(MakeMap());
+            _maps.Add(MakeMap());
+
+            AddActiveMap();
+            AddActiveMap();
+            AddActiveMap();
+
         }
 
         else if (_nowBeast == BeastPool.EndGame)

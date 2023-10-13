@@ -16,6 +16,7 @@ public class Score : MonoBehaviour
     private bool _startGame = false;
 
     private bool _foxCardReady = true;
+    private bool _fishCardReady = true;
     private bool _endGame = true;
     //[SerializeField]private bool _startGame = false;
 
@@ -39,7 +40,12 @@ public class Score : MonoBehaviour
             _foxCardReady = false;
             MapGenerator.instanse.SetBeast(BeastPool.Fox);
         }
-       if ((_timeMaps++) / 5   == 600 && _endGame == true)
+        if ((_timeMaps++) / 5 == 900 && _fishCardReady == true)
+        {
+            _fishCardReady = false;
+            MapGenerator.instanse.SetBeast(BeastPool.Fish);
+        }
+        if ((_timeMaps++) / 5   == 1200 && _endGame == true)
         {
             _endGame = false;
             MapGenerator.instanse.SetBeast(BeastPool.EndGame);

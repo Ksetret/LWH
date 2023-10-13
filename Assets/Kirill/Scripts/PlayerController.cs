@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject _mousePlayer;
     [SerializeField] private GameObject _monkeyPlayer;
+    [SerializeField] private GameObject _fishPlayer;
 
     private float _pointStart;
     private float _pointFinish;
@@ -101,23 +102,38 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Beast");
         if (other.gameObject.GetComponent<FoxControl>())
         {
-            _jumpPower = 15f;
-           // MapGenerator.instanse.SetBeast(BeastPool.Fox);
+            _jumpPower = 18f;
+            // MapGenerator.instanse.SetBeast(BeastPool.Fox);
             _mousePlayer.SetActive(false);
             _monkeyPlayer.SetActive(true);
+            _fishPlayer.SetActive(false);
             Destroy(other.gameObject);
             Debug.Log("Beast1");
         }
 
         if (other.gameObject.GetComponent<MouseController>()) 
         {
-            _jumpPower = 8f;
+            _jumpPower = 15f;
           //  MapGenerator.instanse.SetBeast(BeastPool.Mouse);
             _mousePlayer.SetActive(true);
             _monkeyPlayer.SetActive(false);
+            _fishPlayer.SetActive(false);
             Destroy(other.gameObject);
             Debug.Log("Beast2");
         }
+
+        if (other.gameObject.GetComponent<FishController>())
+        {
+            _jumpPower = 12f;
+            //MapGenerator.instanse.SetBeast(BeastPool.Fish);
+            RoadGenerator.instanse.SetNextRoud(BeastPool.Fish);
+            _mousePlayer.SetActive(false);
+            _monkeyPlayer.SetActive(false);
+            _fishPlayer.SetActive(true);
+            Destroy(other.gameObject);
+            Debug.Log("Beast2");
+        }
+
         if (other.gameObject.tag == "EndGame")
         {
             _rb.AddForce(Vector3.up * 1000f, ForceMode.Impulse);

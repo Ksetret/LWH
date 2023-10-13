@@ -7,12 +7,13 @@ using static MapGenerator;
 
 public class RoadGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _roadsPref;
+    [SerializeField] private GameObject[] _roadsBeastPref;
+    [SerializeField] private GameObject[] _roadsFishPref;
     [SerializeField] private float _maxSpeed = 10f;
     [SerializeField] private float _maxRoadCount = 5;
+    private GameObject[] _nowRoadsPref;
 
-    
-    
+
     private float _speed = 0;
     private List<GameObject> _roads = new List<GameObject>();
 
@@ -23,10 +24,12 @@ public class RoadGenerator : MonoBehaviour
     private void Awake()
     {
         instanse = this;
+        _nowRoadsPref = _roadsBeastPref;
     }
     private void Start()
     {
         ResetLevel();
+        
        
     }
 
@@ -82,8 +85,8 @@ public class RoadGenerator : MonoBehaviour
             pos = _roads[_roads.Count - 1].transform.position + new Vector3(0, 0f, 10f);
         }
 
-        int indexGroand = UnityEngine.Random.Range(0, _roadsPref.Length);
-        GameObject nextRoad = Instantiate(_roadsPref[indexGroand], pos, Quaternion.identity);
+        int indexGroand = UnityEngine.Random.Range(0, _nowRoadsPref.Length);
+        GameObject nextRoad = Instantiate(_nowRoadsPref[indexGroand], pos, Quaternion.identity);
         nextRoad.transform.SetParent(transform);
         _roads.Add(nextRoad);
     }
@@ -95,6 +98,18 @@ public class RoadGenerator : MonoBehaviour
         PlayerController.instanse.RestartBeast();
 
         //PlayerController.instanse.Animator.speed = 1;
+    }
+
+    public void SetNextRoud(MapGenerator.BeastPool nextBeast)
+    {
+        if (nextBeast == BeastPool.Fox || nextBeast == BeastPool.Mouse)
+        {
+            _nowRoadsPref = _roadsBeastPref;
+        }
+        if (nextBeast == BeastPool.Fish)
+        {
+            _nowRoadsPref = _roadsFishPref;
+        }
     }
 
     public void ReastartLevel()
