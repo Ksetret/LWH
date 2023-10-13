@@ -10,8 +10,11 @@ public class CameraController : MonoBehaviour
 
     [SerializeField] private Vector3 _cameraOffset;
 
+
     private void Update()
     {
         transform.position = Vector3.MoveTowards(transform.position, _cameraPlace.position + _cameraOffset, _speed * Time.deltaTime);
+
     }
+
 }

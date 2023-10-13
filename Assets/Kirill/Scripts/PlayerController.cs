@@ -7,6 +7,12 @@ using static MapGenerator;
 public class PlayerController : MonoBehaviour
 {
     public Animator _animator;
+    public Animator _animatorFox;
+    public Animator _animatorFish;
+
+    [SerializeField] private AudioSource _JumpSound;
+    [SerializeField] private AudioSource _stepSound;
+
     [SerializeField]private float _laneOffset = 2f;
     [SerializeField] private GameObject _endGameWindow;
     //private Vector3 _targetPos;
@@ -102,7 +108,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Beast");
         if (other.gameObject.GetComponent<FoxControl>())
         {
-            _jumpPower = 18f;
+            _jumpPower = 15f;
+            _animator = _animatorFox;
             // MapGenerator.instanse.SetBeast(BeastPool.Fox);
             _mousePlayer.SetActive(false);
             _monkeyPlayer.SetActive(true);
@@ -124,6 +131,7 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.GetComponent<FishController>())
         {
+            _animator = _animatorFish;
             _jumpPower = 12f;
             //MapGenerator.instanse.SetBeast(BeastPool.Fish);
             RoadGenerator.instanse.SetNextRoud(BeastPool.Fish);
@@ -145,7 +153,9 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         _isJumping = true;
+        _JumpSound.Play();
         _animator.SetTrigger("Jump");
+        _animatorFox.SetTrigger("Jump");
         _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         Physics.gravity = new Vector3(0, _jumpGravity, 0);
 
@@ -207,5 +217,5 @@ public class PlayerController : MonoBehaviour
         this.transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    
+    public void StepSoundPlay() { _stepSound.Play(); Debug.Log("StepSound"); }
 }

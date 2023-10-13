@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 19ebd578b6eede8419c36ceb5881c385
+guid: 8ef12d370d56d3c42b36ed69925fc901
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -33,11 +33,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Armature|jump
-      takeName: Armature|jump
-      internalID: 7238280004761517075
+      name: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|fixrun"
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|fixrun"
+      internalID: -5588208002871107777
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -62,11 +62,69 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|swim
-      takeName: Armature|swim
-      internalID: 2143856235881189617
+      name: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|Jump"
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|Jump"
+      internalID: -4109368084834977769
       firstFrame: 0
-      lastFrame: 30
+      lastFrame: 50
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|podkat"
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|podkat"
+      internalID: -2797004272931580208
+      firstFrame: 0
+      lastFrame: 20
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|Run"
+      takeName: "\u0410\u0440\u043C\u0430\u0442\u0443\u0440\u0430|Run"
+      internalID: 395390805935382647
+      firstFrame: 0
+      lastFrame: 1
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
