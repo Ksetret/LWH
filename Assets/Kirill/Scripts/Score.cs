@@ -35,17 +35,19 @@ public class Score : MonoBehaviour
         if (_startGame) {
             _scoreText.text = Convert.ToInt32((((_time++) / 40 * RoadGenerator.instanse.Speed))).ToString();
         }
-        if ((_timeMaps++) / 5  == 300 && _foxCardReady == true)
+        if ((_timeMaps++) / 5  == 600 && _foxCardReady == true)
         {
             _foxCardReady = false;
             MapGenerator.instanse.SetBeast(BeastPool.Fox);
+
         }
-        if ((_timeMaps++) / 5 == 900 && _fishCardReady == true)
+        if ((_timeMaps++) / 5 == 1800 && _fishCardReady == true)
         {
             _fishCardReady = false;
             MapGenerator.instanse.SetBeast(BeastPool.Fish);
+
         }
-        if ((_timeMaps++) / 5   == 1200 && _endGame == true)
+        if ((_timeMaps++) / 5   == 24000 && _endGame == true)
         {
             _endGame = false;
             MapGenerator.instanse.SetBeast(BeastPool.EndGame);

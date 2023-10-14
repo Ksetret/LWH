@@ -96,7 +96,7 @@ public class RoadGenerator : MonoBehaviour
         MapGenerator.instanse.SetBeast(BeastPool.Mouse);
         _speed = 5;
         PlayerController.instanse.RestartBeast();
-
+        PlayerController.instanse.AnimationController(BeastPool.Mouse);
         //PlayerController.instanse.Animator.speed = 1;
     }
 

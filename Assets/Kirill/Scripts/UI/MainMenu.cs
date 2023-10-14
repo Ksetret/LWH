@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MainMenu : MonoBehaviour
 {
@@ -58,5 +60,14 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-  
+    public void AnayTelegram() { Application.OpenURL("https://web.telegram.org/k/#@anialavik"); }
+    public void TimkekichTelegram() { Application.OpenURL("https://web.telegram.org/k/#@timkekich"); }
+    public void BigimanButtonTelegram() { Application.OpenURL("https://web.telegram.org/k/#@BigimanBatton"); }
+    public void BaufgtTelegram() { Application.OpenURL("https://web.telegram.org/k/#@Baufgt"); }
+    public void FlametlTelegram() { Application.OpenURL("https://web.telegram.org/k/#@flametl"); }
+
+    public void KeniuoTelegram() { Application.OpenURL("https://web.telegram.org/k/#@keniuo"); }
 }
+
+
+    

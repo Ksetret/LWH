@@ -6,12 +6,18 @@ using static MapGenerator;
 
 public class PlayerController : MonoBehaviour
 {
-    public Animator _animator;
+    public Animator _animatorMouse;
     public Animator _animatorFox;
     public Animator _animatorFish;
 
-    [SerializeField] private AudioSource _JumpSound;
-    [SerializeField] private AudioSource _stepSound;
+    [SerializeField] private AudioSource _foxJumpSound;
+    [SerializeField] private AudioSource _fishJumpSound;
+    [SerializeField] private AudioSource _foxIdleSound;
+    [SerializeField] private AudioSource _fishIdleSoynd;
+    [SerializeField] private AudioSource _gameOver;
+
+    [SerializeField] private AudioSource _jumpMouseSound;
+    [SerializeField] private AudioSource _stepMouseSound;
 
     [SerializeField]private float _laneOffset = 2f;
     [SerializeField] private GameObject _endGameWindow;
@@ -46,7 +52,7 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        _animator = GetComponent<Animator>();
+
       
     }
     static public PlayerController instanse;
@@ -93,8 +99,11 @@ public class PlayerController : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log("Dead");
+        
         if (collision.gameObject.tag == "Lose")
         {
+            _animatorMouse.SetTrigger("Die");
+            _gameOver.Play();
             Score.instance.StopScore();
             _deathWindow.SetActive(true);
             RoadGenerator.instanse.ResetLevel();
@@ -108,14 +117,15 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Beast");
         if (other.gameObject.GetComponent<FoxControl>())
         {
-            _jumpPower = 15f;
-            _animator = _animatorFox;
+            _jumpPower = 12f;
+            _animatorMouse = _animatorFox;
             // MapGenerator.instanse.SetBeast(BeastPool.Fox);
             _mousePlayer.SetActive(false);
             _monkeyPlayer.SetActive(true);
             _fishPlayer.SetActive(false);
             Destroy(other.gameObject);
             Debug.Log("Beast1");
+            AnimationController(BeastPool.Fox);
         }
 
         if (other.gameObject.GetComponent<MouseController>()) 
@@ -131,7 +141,9 @@ public class PlayerController : MonoBehaviour
 
         if (other.gameObject.GetComponent<FishController>())
         {
-            _animator = _animatorFish;
+            _animatorMouse = _animatorFish;
+            _animatorFish.SetTrigger("StartGame");
+            AnimationController(BeastPool.Fish);
             _jumpPower = 12f;
             //MapGenerator.instanse.SetBeast(BeastPool.Fish);
             RoadGenerator.instanse.SetNextRoud(BeastPool.Fish);
@@ -140,6 +152,7 @@ public class PlayerController : MonoBehaviour
             _fishPlayer.SetActive(true);
             Destroy(other.gameObject);
             Debug.Log("Beast2");
+            
         }
 
         if (other.gameObject.tag == "EndGame")
@@ -153,8 +166,8 @@ public class PlayerController : MonoBehaviour
     private void Jump()
     {
         _isJumping = true;
-        _JumpSound.Play();
-        _animator.SetTrigger("Jump");
+        _jumpMouseSound.Play();
+        _animatorMouse.SetTrigger("Jump");
         _animatorFox.SetTrigger("Jump");
         _rb.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         Physics.gravity = new Vector3(0, _jumpGravity, 0);
@@ -169,7 +182,7 @@ public class PlayerController : MonoBehaviour
         }
         while (_rb.velocity.y != 0);
         _isJumping = false;
-        _animator.SetTrigger("Jump");
+        _animatorMouse.SetTrigger("Jump");
         Physics.gravity = new Vector3(0, _realGravity, 0);
 
     }
@@ -217,5 +230,17 @@ public class PlayerController : MonoBehaviour
         this.transform.GetChild(0).gameObject.SetActive(true);
     }
 
-    public void StepSoundPlay() { _stepSound.Play(); Debug.Log("StepSound"); }
+    public void StepSoundPlay() { _stepMouseSound.Play(); Debug.Log("StepSound"); }
+
+    public void AnimationController(BeastPool nowBeast)
+    {
+        if (nowBeast == BeastPool.Mouse)
+            _animatorMouse.SetTrigger("StartGame");
+
+        else if (nowBeast == BeastPool.Fox)
+            _animatorFox.SetTrigger("StartGame");
+
+        else if (nowBeast == BeastPool.Fish)
+            _animatorFish.SetTrigger("StartGame");
+    }
 }

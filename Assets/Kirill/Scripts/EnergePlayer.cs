@@ -21,6 +21,7 @@ public class EnergePlayer : MonoBehaviour
     [SerializeField] private Light _lightFish;
     [SerializeField] private ParticleSystem _particleFish;
 
+   
     static public EnergePlayer instance;
 
     private void Awake()
@@ -65,7 +66,9 @@ public class EnergePlayer : MonoBehaviour
 
         if (_currentEnerge >= _maxEnerge) return;
 
+        
             _currentEnerge += 0.2f;
+          
      
     }
 
